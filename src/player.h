@@ -1,0 +1,48 @@
+#pragma once
+
+#include "gameobject.h"
+#include <sgg/graphics.h>
+#include "box.h"
+
+class Player : public Box, public GameObject
+{
+	// animated player
+	std::vector<std::string> m_sprites;
+
+	graphics::Brush m_brush_player;
+	
+	const float m_accel_horizontal = 16.0f;
+	const float m_accel_vertical = 300.0f;
+	const float m_max_velocity = 4.0f;
+	const float m_gravity = 12.0f;
+
+public:
+	float m_vx = 0.0f;
+	float m_vy = 0.0f;
+
+public:
+	void update(float dt) override;
+	void draw() override;
+	void init() override;
+
+	int getCurrentHP();
+	void heal();
+	void damage();
+	void death();
+	void success();
+
+	Player(std::string name) : GameObject(name) {}
+
+protected:
+	void debugDraw();
+	const int getTotalHP();
+
+	// dynamic motion control
+	void movePlayer(float dt);
+
+protected:
+	int score = 0;
+	const int total_hp = 100;
+	int current_hp = 100;
+
+};
